@@ -57,6 +57,15 @@ module.exports.middleware = function(origin, message) {
         + colours.yellow(`MIDDLEWARE: ${origin}`) + '] ' + message);
 }
 
+module.exports.middleware = function(req, res, next) {
+    let d = moment().format(dateFormat);
+    fs.appendFileSync(logPath, `[${d.toLocaleString()}] [MIDDLEWARE: ${req.originalUrl}] NEW ${req.method} FROM ${req.ip} \n`);
+    if (LogLevel > 0) return; 
+    console.log('[' + d.toLocaleString() + '] [' 
+        + colours.yellow(`MIDDLEWARE: ${req.originalUrl}`) + '] ' + `NEW ${req.method} FROM ${req.ip}`);
+    next();
+}
+
 module.exports.debug = function(message) {
     let d = moment().format(dateFormat);
     fs.appendFileSync(logPath, `[${d.toLocaleString()}] [DEBUG] ${message} \n`);
