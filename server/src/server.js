@@ -6,9 +6,11 @@ const App = Express();
 
 module.exports.init = async function()
 {
-    App.get('/api/', [Logger.middleware, (req, res, next) => {
+    App.use(Logger.middleware);
+
+    App.get('/api/', (req, res, next) => {
         res.send('bruh');
-    }]);
+    });
     
     return new Promise((resolve, reject) => {
         try
