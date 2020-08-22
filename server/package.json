@@ -9,9 +9,11 @@
   "author": "Ben Kyd <benjaminkyd@gmail.com> (https://benkyd.co.uk), Jack Dunnings, Jake Bailey",
   "license": "MIT",
   "dependencies": {
+    "colours": "^0.6.0-2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mariadb": "^2.4.2",
+    "sequelize": "^6.3.4",
     "sqlite": "^4.0.14"
   }
 }

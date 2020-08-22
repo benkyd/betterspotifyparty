@@ -1,4 +1,4 @@
-const colours = require('colors/safe');
+const colours = require('colours');
 const moment = require('moment');
 const fs = require('fs');
 
