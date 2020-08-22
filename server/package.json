@@ -6,6 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Ben Kyd <benjaminkyd@gmail.com> (https://benkyd.co.uk)",
-  "license": "MIT"
+  "author": "Ben Kyd <benjaminkyd@gmail.com> (https://benkyd.co.uk), Jack Dunnings, Jake Bailey",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
 }
