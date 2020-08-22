@@ -15,8 +15,19 @@ It should follow this template
 
 ```
 NODE_ENV="" # production / development
+
 SPOTIFY_BASE_API="" # api.spotify.com/v1/...
 SPOTIFY_APP_TOKEN="" # token from developer.spotify.com
+
+SERVER_PORT=n # 80
+
+DEV_DATABASE_LOC="" # ./storage/party.sqlite
+
+PROD_DATABASE_HOST="" # 127.0.0.1
+PROD_DATABASE_PORT="" # 3305
+PROD_DATABASE_USER="" # root
+PROD_DATABASE_PASS="" # your password
+PROD_DATABASE_DB="" # betterspot
 ```
 
 ## The plan
