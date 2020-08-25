@@ -17,8 +17,10 @@ It should follow this template
 NODE_ENV="" # production / development
 
 SPOTIFY_BASE_API="" # api.spotify.com/v1/...
+SPOTIFY_APP_ID="" # app id from developer.spotify.com
 SPOTIFY_APP_TOKEN="" # token from developer.spotify.com
 
+SERVER_HOST=n # 127.0.0.1
 SERVER_PORT=n # 80
 
 DEV_DATABASE_LOC="" # ./storage/party.sqlite

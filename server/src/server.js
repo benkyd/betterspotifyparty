@@ -1,6 +1,7 @@
-const Logger = require('./logger.js')
+const Logger = require('./logger.js');
+const Helpers = require('./helpers.js');
 
-const Express = require('express')
+const Express = require('express');
 
 const App = Express();
 
@@ -8,9 +9,9 @@ module.exports.init = async function()
 {
     App.use(Logger.middleware);
 
-    App.get('/api/', (req, res, next) => {
-        res.send('bruh');
-    });
+    // This is only needed for the "host" queue
+    App.get('/api/auth', AuthenticateHandle);
+    App.get('/api/authcallback', AuthenticatedHandle);
     
     return new Promise((resolve, reject) => {
         try
@@ -25,4 +26,23 @@ module.exports.init = async function()
             reject();
         }
     });
+}
+
+
+async function AuthenticateHandle(req, res, next)
+{
+    let scopes = 'user-read-private user-read-email streaming user-read-playback-state user-modify-playback-state user-read-currently-playing';
+    res.redirect('https://accounts.spotify.com/authorize' +
+        '?response_type=code' +
+        '&client_id=' + process.env.SPOTIFY_APP_ID +
+        (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+        '&redirect_uri=' + encodeURIComponent('http://' + process.env.SERVER_HOST + '/api/authcallback') + '&show_dialog=true');
+}
+
+async function AuthenticatedHandle(req, res, next)
+{
+    console.log('New spotify auth');
+    console.log(Helpers.SafeJSONStringify(req, 4));
+    // Database time
+    res.send('Authenticated with spotify');
 }
