@@ -5,11 +5,11 @@ A project inspired by the lacklustre implementation by both discord and spotify,
 ## The Aim
 To allow friends and family in remote areas to connect via music, without bloat or delay
 
-To provide a better alternative to other publically available projects, at no cost to the end user
+To provide a better alternative to other publicly available projects, at no cost to the end user
 
 ## Installation
 
-Server requires .env variables which can be provided by enviroment variables or a .env file with the relavent configuration
+Server requires .env variables which can be provided by environment variables or a .env file with the relevent configuration
 
 It should follow this template
 
