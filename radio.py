@@ -3,7 +3,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
 os.environ['SPOTIPY_CLIENT_ID'] = '1071f72324a14278af0998dad4eda1f8'  # from my dash
-os.environ['SPOTIPY_CLIENT_SECRET'] = 'c4eb3046229241958dee65273e505f86'  # from my dash
+os.environ['SPOTIPY_CLIENT_SECRET'] = ''  # from my dash
 os.environ['SPOTIPY_REDIRECT_URI'] = 'https://localhost/api/auth/'
 scope = "user-library-read user-read-currently-playing user-modify-playback-state user-read-playback-state"  #
 # provides relevant scopes to auth
