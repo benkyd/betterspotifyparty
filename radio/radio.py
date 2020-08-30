@@ -13,7 +13,7 @@ scope = "user-library-read user-read-currently-playing user-modify-playback-stat
 OAuth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
                      client_secret=SPOTIPY_CLIENT_SECRET,
                      scope=scope,
-                     redirect_uri='https://localhost/api/auth/',
+                     redirect_uri=SPOTIPY_REDIRECT_URI,
                      cache_path='../../cache.txt',
                      )
 token = OAuth.get_cached_token()
