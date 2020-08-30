@@ -1,9 +1,8 @@
 import os
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-from dotenv import load_dotenv
-
-load_dotenv()
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
 
 SPOTIPY_CLIENT_ID = os.getenv('SPOTIFY_APP_ID')
 SPOTIPY_CLIENT_SECRET = os.getenv('SPOTIFY_APP_TOKEN')
@@ -11,9 +10,12 @@ SPOTIPY_REDIRECT_URI = os.getenv('SPOTIFY_REDIRECT_URI')
 scope = "user-library-read user-read-currently-playing user-modify-playback-state user-read-playback-state"  #
 # provides relevant scopes to auth
 
-OAuth = SpotifyOAuth(scope=scope,
+OAuth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
+                     client_secret=SPOTIPY_CLIENT_SECRET,
+                     scope=scope,
                      redirect_uri='https://localhost/api/auth/',
-                     cache_path='../../cache.txt')
+                     cache_path='../../cache.txt',
+                     )
 token = OAuth.get_cached_token()
 sp = spotipy.Spotify(auth_manager=OAuth)
 
