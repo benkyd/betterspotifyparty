@@ -58,10 +58,11 @@ if userlike == "Yes" or userlike == "yes":
 
 def getRecommended():
     recommendations = sp.recommendations(seed_tracks=seedtracks)
-    recommendedtracks = recommendations["tracks"]["id"]
+    recommendedtracks = recommendations["tracks"][(len(seedtracks))]["id"]
     return [recommendedtracks]
 
 
-recommmendedtracks = [] = getRecommended()
+recommmendedtracks = []
+recommmendedtracks = getRecommended()
 
 
