@@ -49,15 +49,16 @@ playingtrackID = getPlaying()
 #valence = audioFeatures[2]
 #tempo = audioFeatures[3]
 
+seedtracks = []
 
 userlike = input("Do you like this track? ")
 if userlike == "Yes" or userlike == "yes":
-    seedtracks = playingtrackID
+    seedtracks.append(playingtrackID)
 
 
 def getRecommended():
     recommendations = sp.recommendations(seed_tracks=seedtracks)
-    recommendedtracks = recommendations['tracks']['id']
+    recommendedtracks = recommendations["tracks"]["id"]
     return [recommendedtracks]
 
 
