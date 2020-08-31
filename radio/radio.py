@@ -32,7 +32,7 @@ def checkplaying():
 
 isplaying = checkplaying()
 
-while isplaying:true:
+while isplaying:
 
     def getPlaying():  # gets the currently playing track for the signed in user
         userplaying = sp.current_playback()
