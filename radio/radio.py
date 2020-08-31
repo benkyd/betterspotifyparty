@@ -25,12 +25,6 @@ sp = spotipy.Spotify(auth_manager=OAuth)
 # Need to implement a callback, taking the assigned token and returning it to the program, rather than entering URL
 # each time for auth
 
-def pastQ():
-    nowplaying = sp.current_playback()
-    pastQueue = []
-    if nowplaying is not nowplaying:
-        pastQueue.append(nowplaying)
-
 
 def checkplaying():  # checks if user is actually playing a track, returns true or false. Only checks if the current track is playing so always true?
     playing = sp.current_playback()
@@ -41,54 +35,66 @@ def checkplaying():  # checks if user is actually playing a track, returns true 
 isplaying = checkplaying()
 
 while isplaying:
+    def pastQ():
+        nowplaying = sp.current_playback()
+        currentID = nowplaying['item']['id']
+        pastQueue = []
+        pastQueue.append(currentID)
+        pastQlength = len(pastQueue)
 
-    def getPlaying():  # gets the currently playing track for the signed in user
-        userplaying = sp.current_playback()
-        playingdata = userplaying['item']['id']
-        playingname = userplaying["item"]["name"]
-        return playingdata  # returns ID of currently playing track
+        if pastQueue[(pastQlength - 1)] != pastQueue[(pastQlength)]:
+
+            def getPlaying():  # gets the currently playing track for the signed in user
+                userplaying = sp.current_playback()
+                playingdata = userplaying['item']['id']
+                playingname = userplaying["item"]["name"]
+                return playingdata  # returns ID of currently playing track
+
+            playingtrackID = getPlaying()
+
+            # def getFeatures():  # calls the API to get the features of a given track ID
+            #  featuresdata = sp.audio_features(playingtrackID)
+            # dance = featuresdata['danceability']
+            #  energy = featuresdata['energy']
+            #  valence = featuresdata['valence']
+            #  tempo = featuresdata['tempo']
+            #   features = [dance, energy, valence, tempo]
+            #  return [features]
+
+            # audioFeatures = []
+            # audioFeatures = getFeatures()
+            # dance = audioFeatures[0]
+            # energy = audioFeatures[1]
+            # valence = audioFeatures[2]
+            # tempo = audioFeatures[3]
+
+            seedtracks = []
+
+            userlike = input("Do you like this track? ")
+            if userlike == "Yes" or userlike == "yes":
+                seedtracks.append(playingtrackID)
+
+            def getRecommended():  # uses an API call to seed recommendations, then spotify returns a .json containing the reccomendations
+                recommendations = sp.recommendations(seed_tracks=seedtracks)
+                recommendedtracks = recommendations["tracks"][(len(seedtracks))]["URI"]
+                return [recommendedtracks]  # return the list of recommended tracks
+
+            recommmendedtracks = []
+            recommmendedtracks = getRecommended()
+
+            # def recommendedNames():
+            # search = sp.tracks(recommmendedtracks)
+            # reccnames = search["tracks"][0]["id"]
+            # return reccnames
+
+            # reccnames = []
+            # reccnames.append(recommmendedtracks)
+
+            print(recommmendedtracks)
+
+            def addtoQueue():
+                sp.add_to_queue(recommmendedtracks)
 
 
-    playingtrackID = getPlaying()
-
-    # def getFeatures():  # calls the API to get the features of a given track ID
-    #  featuresdata = sp.audio_features(playingtrackID)
-    # dance = featuresdata['danceability']
-    #  energy = featuresdata['energy']
-    #  valence = featuresdata['valence']
-    #  tempo = featuresdata['tempo']
-    #   features = [dance, energy, valence, tempo]
-    #  return [features]
-
-    # audioFeatures = []
-    # audioFeatures = getFeatures()
-    # dance = audioFeatures[0]
-    # energy = audioFeatures[1]
-    # valence = audioFeatures[2]
-    # tempo = audioFeatures[3]
-
-    seedtracks = []
-
-    userlike = input("Do you like this track? ")
-    if userlike == "Yes" or userlike == "yes":
-        seedtracks.append(playingtrackID)
-
-
-    def getRecommended():  # uses an API call to seed recommendations, then spotify returns a .json containing the reccomendations
-        recommendations = sp.recommendations(seed_tracks=seedtracks)
-        recommendedtracks = recommendations["tracks"][(len(seedtracks))]["id"]
-        return [recommendedtracks]  # return the list of recommended tracks
-
-
-    recommmendedtracks = []
-    recommmendedtracks = getRecommended()
-
-    # def recommendedNames():
-    # search = sp.tracks(recommmendedtracks)
-    # reccnames = search["tracks"][0]["id"]
-    # return reccnames
-
-    # reccnames = []
-    # reccnames.append(recommmendedtracks)
-
-    print(recommmendedtracks)
+        else:
+            print("You've already submitted feedback for this track, please wait until the next track plays")

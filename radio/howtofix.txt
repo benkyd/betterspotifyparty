@@ -1,0 +1,14 @@
+ask user for feedback
+seed recc
+return recc
+add recc to queue
+
+^^ done like a chad
+
+
+need to write past played to db or a csv
+verify from there rather than inline
+since each time itll reinstance it wont have a past queue
+
+
+need to verify currently playing track has not already receieved feedback
