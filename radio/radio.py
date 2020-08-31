@@ -16,7 +16,7 @@ OAuth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
                      redirect_uri=SPOTIPY_REDIRECT_URI,
                      cache_path='../../cache.txt',
                      )
-token = OAuth.get_cached_token()
+token = OAuth.get_access_token("200")
 sp = spotipy.Spotify(auth_manager=OAuth)
 
 
@@ -66,3 +66,12 @@ recommmendedtracks = []
 recommmendedtracks = getRecommended()
 
 
+def recommendedNames():
+    search = sp.tracks(recommmendedtracks)
+    reccnames = search["tracks"][0]["id"]
+    return [reccnames]
+
+reccnames =[]
+reccnames.append(recommendedNames())
+
+print(reccnames)
