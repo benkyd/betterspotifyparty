@@ -1,14 +1,16 @@
-ask user for feedback
-seed recc
-return recc
-add recc to queue
+(auth flow stuff)
+initial api call to get now playing data with sp.current_playback()
+unpack json response
 
-^^ done like a chad
-
-
-need to write past played to db or a csv
-verify from there rather than inline
-since each time itll reinstance it wont have a past queue
-
-
-need to verify currently playing track has not already receieved feedback
+if usergivenfeedback = false:
+    if userfeedback = likes:
+        add URI and ID to database
+        use ID to seed recommendation
+        add recommendation to queue
+    else:
+        look for last liked track
+        pull db entry
+        use ID to seed recc
+        add to queue
+else:
+    print("You have already submitted feedback for this track"
