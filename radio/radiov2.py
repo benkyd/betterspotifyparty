@@ -20,17 +20,19 @@ OAuth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
                      redirect_uri=SPOTIPY_REDIRECT_URI,
                      cache_path='../../cache.txt',
                      )
-token = OAuth.get_access_token("200")
+token = OAuth.get_access_token()
 sp = spotipy.Spotify(auth_manager=OAuth)
 
-nowplaying = sp.current_playback()
-currentID = nowplaying['item']['id']
 
-with open('playedtracks.csv', 'w', newline='') as csvfile:
+nowplaying = sp.current_playback()
+currentID = nowplaying['item']['uri']
+
+with open('playedtracks.csv', 'a', newline='') as csvfile:
     lastplayedwrite = csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
     lastplayedwrite.writerow(currentID)
 
-userlikes = print("Do you like this track?")
+userlikes = input("Do you like this track? ")
+
 if userlikes == "yes" or userlikes == "y" or userlikes == "Yes":
 
     def getPlaying():  # gets the currently playing track for the signed in user
@@ -45,16 +47,16 @@ if userlikes == "yes" or userlikes == "y" or userlikes == "Yes":
 
     def getRecommended():  # uses an API call to seed recommendations, then spotify returns a .json containing the reccomendations
         recommendations = sp.recommendations(seed_tracks=seedtracks)
-        recommendedtracks = recommendations["tracks"][(len(seedtracks))]["URI"]
-        return [recommendedtracks]  # return the list of recommended tracks
+        nexttoplay = recommendations['tracks'][00]['uri']
+        return nexttoplay  # return the list of recommended tracks
 
 
-    recommmendedtracks = []
-    recommmendedtracks = getRecommended()
+
+    nexttoplay = getRecommended()
 
 
     def addtoQueue():
-        sp.add_to_queue(recommmendedtracks)
+        sp.add_to_queue(nexttoplay)
 
 else:
     def getLastPlayed():
@@ -62,11 +64,12 @@ else:
             recentlyplayed = csv.reader(csvfile, delimiter=' ', quotechar='|')
             for row in recentlyplayed:
                 recenttracks = row
-        lines = len(list(recentlyplayed))
+            lines = len(list(recentlyplayed))
         return [recenttracks, lines]
 
-    recenttracks = getLastPlayed(0)
-    songsplayedlength = getLastPlayed(1)
+    getLastPlayed = getLastPlayed()
+    recenttracks = getLastPlayed[0]
+    songsplayedlength = getLastPlayed[1]
 
     def lastplayedtrack():
         lastplayedpos = int((songsplayedlength -1))
@@ -76,8 +79,8 @@ else:
     lasttrack = lastplayedtrack()
 
     def pastrecc():
-        pastrecommendation = sp.recommendations(seed_tracks=seedtracks)
-        pastrecommendedtracks = pastrecommendation["tracks"][(len(seedtracks))]["URI"]
+        pastrecommendation = sp.recommendations(seed_tracks=lasttrack)
+        pastrecommendedtracks = pastrecommendation["tracks"]["URI"]
         return pastrecommendedtracks
 
     pastrecommendations = pastrecc()
