@@ -25,11 +25,16 @@ sp = spotipy.Spotify(auth_manager=OAuth)
 
 
 nowplaying = sp.current_playback()
-currentID = nowplaying['item']['uri']
+currentID = nowplaying['item']['id']
+currentURI = nowplaying['item']['uri']
 
-with open('playedtracks.csv', 'a', newline='') as csvfile:
-    lastplayedwrite = csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-    lastplayedwrite.writerow(currentID)
+f = open("playedtracksID.txt", "a") # ID used for recommendations
+f.write(currentID + "\n")
+f.close()
+
+g = open("playedtracksURI.txt", "a") # URI used for adding to queue
+g.write(currentURI + "\n")
+g.close()
 
 userlikes = input("Do you like this track? ")
 
@@ -56,12 +61,15 @@ if userlikes == "yes" or userlikes == "y" or userlikes == "Yes":
 
 else:
     def getLastPlayed():
-        with open('playedtracks.csv', newline='') as csvfile:
-            recentlyplayed = csv.reader(csvfile, delimiter=' ', quotechar='|')
-            for row in recentlyplayed:
-                recenttracks = row
-            lines = len(list(recentlyplayed))
-        return [recenttracks, lines]
+        f = open("playedtracksID.txt", "r") # reads track ID of all songs
+        recenttracks = f.readlines()
+
+        num_lines = 0
+        g = open("playedtracksURI.txt", "r") # reads track URI of all songs
+        for line in g:
+            num_lines += 1
+
+        return [recenttracks, num_lines]
 
     getLastPlayed = getLastPlayed()
     recenttracks = getLastPlayed[0]
@@ -75,11 +83,10 @@ else:
     lasttrack = lastplayedtrack()
 
     def pastrecc():
-        pastrecommendation = sp.recommendations(seed_tracks=lasttrack)
+        pastrecommendation = sp.recommendations(seed_tracks=lasttrack) # uses track ID to seed generation
         pastrecommendedtracks = pastrecommendation["tracks"]["URI"]
         return pastrecommendedtracks
 
     pastrecommendations = pastrecc()
 
-    def add_last_to_queue():
-        sp.add_to_queue(pastrecommendations)
+    sp.add_to_queue(pastrecommendations)
