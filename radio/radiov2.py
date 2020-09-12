@@ -20,7 +20,7 @@ OAuth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
                      redirect_uri=SPOTIPY_REDIRECT_URI,
                      cache_path='../../cache.txt',
                      )
-token = OAuth.get_access_token()
+token = OAuth.get_cached_token()
 sp = spotipy.Spotify(auth_manager=OAuth)
 
 
@@ -50,13 +50,9 @@ if userlikes == "yes" or userlikes == "y" or userlikes == "Yes":
         nexttoplay = recommendations['tracks'][00]['uri']
         return nexttoplay  # return the list of recommended tracks
 
-
-
     nexttoplay = getRecommended()
 
-
-    def addtoQueue():
-        sp.add_to_queue(nexttoplay)
+    sp.add_to_queue(nexttoplay)
 
 else:
     def getLastPlayed():
